@@ -1,6 +1,6 @@
 "use strict";
 
-import {load_vis_nodes, load_vis_capacity} from './vis_nodes.js';
+import {load_vis_nodes, load_vis_capacity} from '/js/vis_nodes.js';
 
 // Loads postcode to co-ordinate data
 function load_grid_ref() {
@@ -36,6 +36,20 @@ window.onload = function() {
 
     // Load Data Vis from data
     var grid_ref = load_grid_ref();
-    var services_capacity = load_vis_capacity(mymap,grid_ref);
-    var services_nodes = load_vis_nodes(mymap, grid_ref);
+    var services_capacity;
+    var services_nodes;
+
+    var promise = new Promise (function (resolve, reject) {
+        services_capacity = load_vis_capacity(mymap,grid_ref);
+        resolve();
+    });
+
+    promise
+      .then(function() {
+        services_nodes = load_vis_nodes(mymap, grid_ref);
+      })
+      .catch(function() {
+        console.log("Error Loading Visualisation");
+      });
+
 };
