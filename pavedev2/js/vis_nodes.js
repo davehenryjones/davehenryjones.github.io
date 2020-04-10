@@ -1,24 +1,47 @@
 // Load data from csv to create nodes
-export function load_vis_nodes(svg, grid_ref) {
-  var services_location = [];
-  var services_x = [];
-  var services_y = [];
-  var services_name = [];
-  var services_appointments = [];
+/ Load data from csv to create nodes
 
-  var promise = new Promise (function (resolve, reject) {
-    //return d3.csv("/resources/services_list.csv", function(data) {
-    return d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_list.csv", function(data) {
-      for (let i = 0; i < data.length; i++) {
-        services_location.push(data[i].location);
-        services_x.push(grid_ref[data[i].location][0]);
-        services_y.push(grid_ref[data[i].location][1]);
-        services_name.push(data[i].name);
-        services_appointments.push(data[i].appointments);
-      };
-      resolve();
+// Call from index.js with services_nodes = load_vis_nodes_api();
+export function load_vis_nodes_api(svg,grid_ref) {
+    var services_location = [];
+    var services_x = []];
+    var services_y = [];
+    var services_name = [];
+    var services_appointments = [];
+    // Loads data from csv
+    d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_list.csv", function(data) {
+        for (let i = 0; i < data.length; i++) {
+            services_location.push(data[i].location);
+            services_name.push(data[i].name);
+            services_appointments.push(data[i].appointments);
+        };
     });
-  });
+    // WAIT A FEW SECONDS
+    setTimeout(function() {
+        // For all services
+        for (let i = 0; i < services_location.length; i++) {
+            //  Get rid of whitespace in postcode
+            var postcode_no_whitespace = "";
+            postcode_no_whitespace = services_location[i].replace(/ /g, '')
+            //  Call API with postcode_no_whitespace
+            var api = "http://api.postcodes.io/postcodes";
+            var api_address = api.concat(postcode_no_whitespace);
+
+            // request data from API
+            request.open('GET', api_address, true)
+            request.onload = function () {
+                // Begin accessing JSON data here
+                var data = JSON.parse(this.response)
+                // Get x and y coordinates from API, append to services
+                if (request.status >= 200 && request.status < 400) {
+                    services_x.push(data.result.latitude);
+                    services_y.push(data.result.longitude);
+                    console.log(services_x)
+                    console.log(services_y)
+                } else {
+                    console.log('error')
+                }
+            }, 3000);
 
   promise
     .then(function() {
@@ -52,26 +75,50 @@ export function load_vis_nodes(svg, grid_ref) {
 
 
 // Load data from csv to create capacity nodes
-export function load_vis_capacity(svg, grid_ref) {
-  var services_location = [];
-  var services_x = [];
-  var services_y = [];
-  var services_name = [];
-  var services_capacity = [];
+/ Load data from csv to create nodes
 
-  var promise = new Promise (function (resolve, reject) {
-    //return d3.csv("/resources/services_dummy_capacity.csv", function(data) {
-    return d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_dummy_capacity.csv", function(data) {
-      for (let i = 0; i < data.length; i++) {
-        services_location.push(data[i].location);
-        services_x.push(grid_ref[data[i].location][0]);
-        services_y.push(grid_ref[data[i].location][1]);
-        services_name.push(data[i].name);
-        services_capacity.push(data[i].dummy_capacity / 500);
-      };
-      resolve();
+// Call from index.js with services_nodes = load_vis_nodes_api();
+export function load_vis_nodes_api(svg,grid_ref) {
+    var services_location = [];
+    var services_x = []];
+    var services_y = [];
+    var services_name = [];
+    var services_appointments = [];
+    // Loads data from csv
+    d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_list.csv", function(data) {
+        for (let i = 0; i < data.length; i++) {
+            services_location.push(data[i].location);
+            services_name.push(data[i].name);
+            services_appointments.push(data[i].appointments);
+        };
     });
-  });
+    // WAIT A FEW SECONDS
+    setTimeout(function() {
+        // For all services
+        for (let i = 0; i < services_location.length; i++) {
+            //  Get rid of whitespace in postcode
+            var postcode_no_whitespace = "";
+            postcode_no_whitespace = services_location[i].replace(/ /g, '')
+            //  Call API with postcode_no_whitespace
+            var api = "http://api.postcodes.io/postcodes";
+            var api_address = api.concat(postcode_no_whitespace);
+
+            // request data from API
+            request.open('GET', api_address, true)
+            request.onload = function () {
+                // Begin accessing JSON data here
+                var data = JSON.parse(this.response)
+                // Get x and y coordinates from API, append to services
+                if (request.status >= 200 && request.status < 400) {
+                    services_x.push(data.result.latitude);
+                    services_y.push(data.result.longitude);
+                    console.log(services_x)
+                    console.log(services_y)
+                } else {
+                    console.log('error')
+                }
+            }, 3000);
+
 
   promise
     .then(function() {

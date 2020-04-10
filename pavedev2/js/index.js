@@ -47,7 +47,7 @@ window.onload = function() {
 
     promise
       .then(function() {
-        services_nodes = load_vis_nodes(mymap, grid_ref);
+        services_nodes = load_vis_nodes_api(mymap, grid_ref);
       })
       .catch(function() {
         console.log("Error Loading Visualisation");

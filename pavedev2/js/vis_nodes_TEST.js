@@ -3,7 +3,7 @@
 // Call from index.js with services_nodes = load_vis_nodes_api();
 export function load_vis_nodes_api(svg,grid_ref) {
     var services_location = [];
-    var services_x = []];
+    var services_x = [];
     var services_y = [];
     var services_name = [];
     var services_appointments = [];
@@ -35,11 +35,13 @@ export function load_vis_nodes_api(svg,grid_ref) {
                 if (request.status >= 200 && request.status < 400) {
                     services_x.push(data.result.latitude);
                     services_y.push(data.result.longitude);
-
+                    console.log(services_x)
+                    console.log(services_y)
                 } else {
                     console.log('error')
                 }
-            }, 3000);
+            }
+        }, 3000);
         }
 
     };
