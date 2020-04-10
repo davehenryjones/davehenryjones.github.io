@@ -4,7 +4,7 @@
 // Call from index.js with services_nodes = load_vis_nodes_api();
 export function load_vis_nodes_api(svg,grid_ref) {
     var services_location = [];
-    var services_x = []];
+    var services_x = [];
     var services_y = [];
     var services_name = [];
     var services_appointments = [];
@@ -14,7 +14,7 @@ export function load_vis_nodes_api(svg,grid_ref) {
             services_location.push(data[i].location);
             services_name.push(data[i].name);
             services_appointments.push(data[i].appointments);
-        };
+        }
     });
     // WAIT A FEW SECONDS
     setTimeout(function() {
@@ -80,7 +80,7 @@ export function load_vis_nodes_api(svg,grid_ref) {
 // Call from index.js with services_nodes = load_vis_nodes_api();
 export function load_vis_nodes_api(svg,grid_ref) {
     var services_location = [];
-    var services_x = []];
+    var services_x = [];
     var services_y = [];
     var services_name = [];
     var services_appointments = [];
