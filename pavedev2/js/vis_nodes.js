@@ -1,5 +1,5 @@
 // Load data from csv to create nodes
-/ Load data from csv to create nodes
+// Load data from csv to create nodes
 
 // Call from index.js with services_nodes = load_vis_nodes_api();
 export function load_vis_nodes_api(svg,grid_ref) {
@@ -41,7 +41,9 @@ export function load_vis_nodes_api(svg,grid_ref) {
                 } else {
                     console.log('error')
                 }
-            }, 3000);
+            }
+        }
+    }, 3000);
 
   promise
     .then(function() {
@@ -75,7 +77,7 @@ export function load_vis_nodes_api(svg,grid_ref) {
 
 
 // Load data from csv to create capacity nodes
-/ Load data from csv to create nodes
+// Load data from csv to create nodes
 
 // Call from index.js with services_nodes = load_vis_nodes_api();
 export function load_vis_nodes_api(svg,grid_ref) {
