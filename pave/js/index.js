@@ -1,11 +1,11 @@
 "use strict";
 
-import {load_vis_nodes, load_vis_capacity} from './vis_nodes.js';
+import {load_vis_nodes} from './vis_nodes.js';
+import {load_data_from_default} from './data_input_handler.js';
 
 // Loads postcode to co-ordinate data
 function load_grid_ref() {
   var grid_ref = {};
-  //d3.csv("/resources/postcode_ne.csv", function(data) {
   d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/postcode_ne.csv", function(data) {
     for (let i = 0; i < data.length; i++) {
       grid_ref[data[i].postcode] = [data[i].north, data[i].east];
@@ -36,20 +36,7 @@ window.onload = function() {
 
     // Load Data Vis from data
     var grid_ref = load_grid_ref();
-    var services_capacity;
     var services_nodes;
-
-    var promise = new Promise (function (resolve, reject) {
-        services_capacity = load_vis_capacity(mymap,grid_ref);
-        resolve();
-    });
-
-    promise
-      .then(function() {
-        services_nodes = load_vis_nodes(mymap, grid_ref);
-      })
-      .catch(function() {
-        console.log("Error Loading Visualisation");
-      });
-
+    services_nodes = load_data_from_default(grid_ref);
+    setTimeout(function() {load_vis_nodes(mymap, grid_ref, services_nodes);}, 3000);
 };
