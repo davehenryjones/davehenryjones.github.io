@@ -9,6 +9,7 @@ function load_grid_ref() {
   d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/postcode_ne.csv", function(data) {
     for (let i = 0; i < data.length; i++) {
       grid_ref[data[i].postcode] = [data[i].north, data[i].east];
+      console.log(grid_ref.data)
     };
   });
 
