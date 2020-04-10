@@ -15,32 +15,32 @@ export function load_vis_nodes_api(svg,grid_ref) {
             services_appointments.push(data[i].appointments);
         };
     });
-    // TODO: WAIT A FEW SECONDS
+    // WAIT A FEW SECONDS
+    setTimeout(function() {
+        // For all services
+        for (let i = 0; i < services_location.length; i++) {
+            //  Get rid of whitespace in postcode
+            var postcode_no_whitespace = "";
+            postcode_no_whitespace = services_location[i].replace(/ /g, '')
+            //  Call API with postcode_no_whitespace
+            var api = "http://api.postcodes.io/postcodes";
+            var api_address = api.concat(postcode_no_whitespace);
 
-    // For all services
-    for (let i = 0; i < services_location.length; i++) {
-        //  Get rid of whitespace in postcode
-        var postcode_no_whitespace = "";
-        postcode_no_whitespace = services_location[i].replace(/ /g, '')
-        //  Call API with postcode_no_whitespace
-        var api = "http://api.postcodes.io/postcodes";
-        var api_address = api.concat(postcode_no_whitespace);
+            // request data from API
+            request.open('GET', api_address, true)
+            request.onload = function () {
+                // Begin accessing JSON data here
+                var data = JSON.parse(this.response)
+                // Get x and y coordinates from API, append to services
+                if (request.status >= 200 && request.status < 400) {
+                    services_x.push(data.result.latitude);
+                    services_y.push(data.result.longitude);
 
-        // request data from API
-        request.open('GET', api_address, true)
-        request.onload = function() {
-            // Begin accessing JSON data here
-            var data = JSON.parse(this.response)
-            // Get x and y coordinates from API, append to services
-            if (request.status >= 200 && request.status < 400) {
-                services_x.push(data.result.latitude);
-                services_y.push(data.result.longitude);
-
-            } else {
-                console.log('error')
-            }
+                } else {
+                    console.log('error')
+                }
+            }, 3000);
         }
-
 
     };
     return [services_location, services_x, services_y, services_name, services_appointments];
