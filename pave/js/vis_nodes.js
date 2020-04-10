@@ -1,46 +1,59 @@
-// Load data from csv to create nodes
-export function load_vis_nodes(svg, services_nodes) {
+// Load data from preselected csvs to variable
+export function load_data_from_default(grid_ref) {
+  return [
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv"),
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv"),
+    load_data_from_file(grid_ref, "https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv")
+  ];
+}
 
-  for (let i = 0; i < services_nodes.location.length; i++) {
+// Load date from specified file
+function load_data_from_file(grid_ref, data_src) {
+  var services_location = [];
+  var services_x = [];
+  var services_y = [];
+  var services_name = [];
+  var services_appointments = [];
+  var services_capacity = [];
+  var services_metadata = [];
 
-    // Draw capacity
-    var circle_capacity = L.circle([services_nodes.x[i], services_nodes.y[i]], {
-        color: 'black',
-        weight: '0.5',
-        fillColor: '#1E88E5',
-        fillOpacity: 0.7,
-        radius: services_nodes.capacity[i] / 20
-    }).addTo(svg);
 
-    // Draw node
-    var circle_usage = L.circle([services_nodes.x[i], services_nodes.y[i]], {
-        color: 'black',
-        weight: '0.5',
-        fillColor: '#FFC107',
-        fillOpacity: 0.7,
-        radius: services_nodes.appointments[i] / 20
-    }).addTo(svg);
+  d3.csv(data_src, function(data) {
 
-    // Create string from metadata
-    var metadata_string = "";
-    for (let j = 0; j < services_nodes.metadata[i].length; j++) {
-      metadata_string = metadata_string + "<br> + "
-        + services_nodes.metadata[i][j][0] + ": "
-        + services_nodes.metadata[i][j][1];
+    // Get column headers
+    var extra_columns = Object.keys(data[0]);
+
+    // Remove colleted columns
+    extra_columns.splice(extra_columns.indexOf("location",),1);
+    extra_columns.splice(extra_columns.indexOf("name",),1);
+    extra_columns.splice(extra_columns.indexOf("appointments",),1);
+    extra_columns.splice(extra_columns.indexOf("capacity",),1);
+
+    // Save data
+    for (let i = 0; i < data.length; i++) {
+      services_location.push(data[i].location);
+      services_x.push(grid_ref[data[i].location][0]);
+      services_y.push(grid_ref[data[i].location][1]);
+      services_name.push(data[i].name);
+      services_appointments.push(data[i].appointments);
+      services_capacity.push(data[i].capacity);
+
+      // metadata saving
+      var extra_data = [];
+      for (let j = 0; j < extra_columns.length; j++) {
+        extra_data.push([extra_columns[j], data[i][extra_columns[j]]]);
+      };
+      services_metadata.push(extra_data);
     };
+  });
 
-    // Add extra information popup
-    circle_usage.on('mouseover', function (event) {
-      var info_popup = L.popup()
-       .setLatLng(event.latlng)
-       .setContent('<b>Location:</b> ' + services_nodes.location[i]
-          + '<br><b>Name:</b> ' + services_nodes.name[i]
-          + '<br><b>Appointments:</b> ' + services_nodes.appointments[i]
-          + '<br><b>Capacity:</b> ' + services_nodes.capacity[i]
-          + '<br><b>Metadata:</b> ' + metadata_string)
-       .openOn(svg);
-      });
-
-    };
-  return;
+  return {
+           "location": services_location,
+           "x": services_x,
+           "y": services_y,
+           "name": services_name,
+           "appointments": services_appointments,
+           "capacity": services_capacity,
+           "metadata": services_metadata
+         };
 };
