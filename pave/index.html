@@ -3,6 +3,7 @@
   <head>
     <meta charset = "UTF-8"/>
     <title>PAVE</title>
+    <link rel="stylesheet" href="css/index.css"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
@@ -12,6 +13,9 @@
 
   <body>
     <div id="mapid" style="width:1024px;height:1024px;"></div>
+    <div class="slidecontainer">
+      <input type="range" min="0" max="2" value="0" class="slider" id="daypicker">
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
