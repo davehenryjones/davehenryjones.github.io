@@ -1,25 +1,14 @@
 "use strict";
 
 import {load_vis_nodes} from './vis_nodes.js';
-import {load_data_from_default} from './data_input_handler.js';
+import {load_data_from_default, load_data_from_user} from './data_input_handler.js';
 
 // Global variables
 var slider = document.getElementById("daypicker");
+var dataset_upload = document.getElementById("dataset_upload");
 var mymap;
 var earth;
 var services_nodes;
-
-// Loads postcode to co-ordinate data
-function load_grid_ref() {
-  var grid_ref = {};
-  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/postcode_ne.csv", function(data) {
-    for (let i = 0; i < data.length; i++) {
-      grid_ref[data[i].postcode] = [data[i].north, data[i].east];
-    };
-  });
-
-  return grid_ref;
-};
 
 // Manage workflow
 window.onload = function() {
@@ -42,9 +31,27 @@ window.onload = function() {
     earth.addTo(mymap);
 
     // Load Data Vis from data
-    var grid_ref = load_grid_ref();
-    services_nodes = load_data_from_default(grid_ref);
+    services_nodes = load_data_from_default();
     setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]);}, 3000);
+};
+
+// Load all data from csv files
+async function load_csv_files() {
+  var services = [];
+
+  for (let i = 0; i < dataset_upload.files.length; i++) {
+    var reader = new FileReader();
+    var file = dataset_upload.files[i];
+
+    reader.onload = async function() {
+      var service = await load_data_from_user(reader.result);
+      services.push(service);
+    };
+    reader.onerror = error => reject(error)
+    reader.readAsText(file);
+  };
+
+  return services;
 };
 
 // Update the current slider value (each time you drag the slider handle)
@@ -54,4 +61,20 @@ slider.oninput = function() {
   });
   earth.addTo(mymap);
   load_vis_nodes(mymap, services_nodes[this.value]);
-}
+};
+
+// File Upload handler
+dataset_upload.onchange = async function () {
+  services_nodes = [];
+
+  // Load files into services_nodes
+  services_nodes = await load_csv_files();
+
+  // Redraw map
+  mymap.eachLayer(function (layer) {
+    mymap.removeLayer(layer);
+  });
+  earth.addTo(mymap);
+  setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]);}, 3000);
+ 
+};
