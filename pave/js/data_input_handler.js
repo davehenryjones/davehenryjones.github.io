@@ -1,19 +1,19 @@
 // Load data from preselected csvs to variable
 export function load_data_from_default() {
   return [
-    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv"),
-    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv"),
-    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv")
+    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200430.csv", "20200430"),
+    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200501.csv", "20200501"),
+    load_data_from_file("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/20200502.csv", "20200502")
   ];
 }
 
 // Load data from preselected csvs to variable
-export function load_data_from_user(text_snippet) {
-  return load_data_from_text(text_snippet);
+export function load_data_from_user(text_snippet, data_date) {
+  return load_data_from_text(text_snippet, data_date);
 }
 
 // Load date from specified file
-function load_data_from_file(data_src) {
+function load_data_from_file(data_src, data_date) {
   var services_location = [];
   var services_x = [];
   var services_y = [];
@@ -48,7 +48,7 @@ function load_data_from_file(data_src) {
       services_metadata.push(extra_data);
 
       // Get co-ordinates
-      var api_address = ("https://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
+      var api_address = ("http://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
       var api_data = await get_coords(api_address);
       services_x.push(api_data.result.latitude);
       services_y.push(api_data.result.longitude);
@@ -56,6 +56,7 @@ function load_data_from_file(data_src) {
   });
 
   return {
+           "date": data_date,
            "location": services_location,
            "x": services_x,
            "y": services_y,
@@ -74,7 +75,7 @@ async function get_coords(api_address) {
 
 // TODO
 // Load date from specified file
-async function load_data_from_text(text_snippet) {
+async function load_data_from_text(text_snippet, data_date) {
   var services_location = [];
   var services_x = [];
   var services_y = [];
@@ -109,13 +110,14 @@ async function load_data_from_text(text_snippet) {
     services_metadata.push(extra_data);
 
     // Get co-ordinates
-    var api_address = ("https://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
+    var api_address = ("http://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
     var api_data = await get_coords(api_address);
     services_x.push(api_data.result.latitude);
     services_y.push(api_data.result.longitude);
   };
 
   return {
+           "date": data_date,
            "location": services_location,
            "x": services_x,
            "y": services_y,
