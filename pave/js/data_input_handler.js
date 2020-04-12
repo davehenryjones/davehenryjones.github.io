@@ -48,7 +48,7 @@ function load_data_from_file(data_src, data_date) {
       services_metadata.push(extra_data);
 
       // Get co-ordinates
-      var api_address = ("http://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
+      var api_address = ("https://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
       var api_data = await get_coords(api_address);
       services_x.push(api_data.result.latitude);
       services_y.push(api_data.result.longitude);
@@ -110,7 +110,7 @@ async function load_data_from_text(text_snippet, data_date) {
     services_metadata.push(extra_data);
 
     // Get co-ordinates
-    var api_address = ("http://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
+    var api_address = ("https://api.postcodes.io/postcodes/").concat(services_location[i].replace(/\s/g, ''));
     var api_data = await get_coords(api_address);
     services_x.push(api_data.result.latitude);
     services_y.push(api_data.result.longitude);
