@@ -2,6 +2,11 @@
 export function load_vis_nodes(svg, services_nodes) {
 
   for (let i = 0; i < services_nodes.location.length; i++) {
+    // Check data is present
+    if (typeof services_nodes.x[i] == 'undefined') {continue;};
+    if (typeof services_nodes.y[i] == 'undefined') {continue;};
+    if (typeof services_nodes.appointments[i] == 'undefined') {continue;};
+    if (typeof services_nodes.capacity[i] == 'undefined') {continue;};
 
     // Draw capacity
     var circle_capacity = L.circle([services_nodes.x[i], services_nodes.y[i]], {
