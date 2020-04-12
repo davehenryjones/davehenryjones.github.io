@@ -32,26 +32,28 @@ window.onload = function() {
 
     // Load Data Vis from data
     services_nodes = load_data_from_default();
-    setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]);}, 3000);
+    setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]); document.getElementById("datadate").innerHTML = services_nodes[0].date;}, 3000);
 };
 
 // Load all data from csv files
 async function load_csv_files() {
   var services = [];
+  slider.value = 0;
+  slider.max = dataset_upload.files.length - 1;
 
   for (let i = 0; i < dataset_upload.files.length; i++) {
     var reader = new FileReader();
     var file = dataset_upload.files[i];
 
     reader.onload = async function() {
-      var service = await load_data_from_user(reader.result);
+      var service = await load_data_from_user(reader.result, dataset_upload.files[i].name.replace(/\.csv/g, ''));
       services.push(service);
     };
     reader.onerror = error => reject(error)
     reader.readAsText(file);
   };
 
-  return services;
+  services_nodes = services;
 };
 
 // Update the current slider value (each time you drag the slider handle)
@@ -61,6 +63,7 @@ slider.oninput = function() {
   });
   earth.addTo(mymap);
   load_vis_nodes(mymap, services_nodes[this.value]);
+  document.getElementById("datadate").innerHTML = services_nodes[this.value].date;
 };
 
 // File Upload handler
@@ -68,13 +71,12 @@ dataset_upload.onchange = async function () {
   services_nodes = [];
 
   // Load files into services_nodes
-  services_nodes = await load_csv_files();
+  await load_csv_files();
 
   // Redraw map
   mymap.eachLayer(function (layer) {
     mymap.removeLayer(layer);
   });
   earth.addTo(mymap);
-  setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]);}, 3000);
- 
+  setTimeout(function() {load_vis_nodes(mymap, services_nodes[0]); document.getElementById("datadate").innerHTML = services_nodes[0].date;}, 3000);
 };
