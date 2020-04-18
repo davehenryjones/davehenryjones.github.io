@@ -3,32 +3,34 @@
   <head>
     <meta charset = "UTF-8"/>
     <title>PAVE</title>
-    <link rel="stylesheet" href="./css/index.css"/>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="./css/index.css"/>
     <script type = "text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
     <script type = "text/javascript" src = "https://d3js.org/d3-dsv.v1.min.js"></script>
   </head>
 
-  <body>
+  <body style="height: 100%, width=100%">
 
 
   <div class="w3-container w3-light-grey" style="height: 10vh"></div>
   <div class="w3-cell-row" style="height: 80vh">
-    <div class="w3-container w3-cell w3-light-grey" style="width:10vw"></div>
-    <div id="mapid" class="w3-container w3-green w3-cell" style="width:900px; height: 900px; margin-top:20px">
+    <div class="w3-container w3-cell w3-light-grey" style="width: 10vw"></div>
+    <div id="mapid" class="w3-container w3-green w3-cell" style="width: 45vw">
     </div>
-    <div class="w3-container w3-cell  centre">
-      <div class="h1">PAVE</div>
+    <div class="w3-container w3-cell  centre" style="width: 35vw">
+      <h1>PAVE</h1>
       <h2>Patient Access Visualisation Engine</h2>
       <p>Welcome all policy makers, comissioners, managers and medics around the world fighting the Coronavirus Pandemic. This web-app allows you to input current and historic capacity/occupancy data of core services, along with a postcode and it will visually map how the pandemic has evolved/is evolving in your service(s). The aim of this tool is to assist you in predicting where you may most efficiently open up new capacity. </p>
+      <p>For more information about PAVE or to contact us about potential other implementations of our application head to <a href="http://www.pave-health.org" target="_blank">pave-health.org</a></p>
       <p style="font-weight: bold;">Use the button below to upload historic data</p>
 
       <input type="file" id="dataset_upload" accept=".csv" multiple hidden="hidden"/>
-      <button class="w3-button w3-ripple w3-light-grey w3-round-xlarge" id="custom-button">Upload File</button>
-      <span id="custom-text">No file chosen, yet.</span>
+      <button class="w3-button w3-ripple w3-light-grey w3-round-large button" id="custom-button">Upload File</button>
+      <span id="custom-text" class="button">No file chosen, yet.</span>
 
       <script type="text/javascript">
         const dataUpload = document.getElementById("dataset_upload");
@@ -56,8 +58,9 @@
         <input type="range" min="0" max="2" value="0" class="slider" id="daypicker">
       </div>
       <p style="font-weight: bold" id="datadate">Date</p>
+      <p class="nb">The colours used in this application are designed to be high contrast and accessible to those with colourblindness.</p>
     </div>
-    <div class="w3-container w3-cell w3-light-grey" style="width:10vw"></div>
+    <div class="w3-container w3-cell w3-light-grey" style="width: 10vw"></div>
   </div>
   <div class="w3-container w3-light-grey" style="height: 10vh"></div>
 
