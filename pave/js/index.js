@@ -1,7 +1,7 @@
 "use strict";
 
-import {load_vis_nodes} from './vis_nodes.js';
-import {load_data_from_default, load_data_from_user} from './data_input_handler.js';
+import {load_vis_nodes} from '/js/vis_nodes.js';
+import {load_data_from_default, load_data_from_user} from '/js/data_input_handler.js';
 
 // Global variables
 var slider = document.getElementById("daypicker");

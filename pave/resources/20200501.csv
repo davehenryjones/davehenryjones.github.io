@@ -1,4 +1,4 @@
-location,name,appointments,capacity,metadata_1,metadata_2
+location,name,appointments,capacity,moderate_cases,severe_cases
 BS20 6AQ,GP,8662,11960,3,20
 BS3 1AS,GP,24093,18826,99,34
 BS11 9SB,GP,5710,6490,47,95
