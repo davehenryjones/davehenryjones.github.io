@@ -17,7 +17,7 @@ function load_grid_ref() {
 };
 
 // Manage workflow
-window.onload = function() {
+window.onload = async function() {
 
     // initialize the map on the "map" div with a given center and zoom
     var mymap = L.map('mapid', {
@@ -36,7 +36,7 @@ window.onload = function() {
     }).addTo(mymap);
 
     // Load Data Vis from data
-    var grid_ref = load_grid_ref();
-    var referrals_edges = load_vis_edges(mymap, grid_ref);
-    var services_nodes = load_vis_nodes(mymap, grid_ref);
+    var grid_ref = await load_grid_ref();
+    var referrals_edges = await load_vis_edges(mymap, grid_ref);
+    var services_nodes = await load_vis_nodes(mymap, grid_ref);
 };
