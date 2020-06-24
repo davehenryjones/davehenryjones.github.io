@@ -1,7 +1,7 @@
 "use strict";
 
-import {load_vis_nodes} from '/js/vis_nodes.js';
-import {load_vis_edges} from '/js/vis_edges.js';
+import {load_vis_nodes} from './vis_nodes.js';
+import {load_vis_edges} from './vis_edges.js';
 
 // Loads postcode to co-ordinate data
 function load_grid_ref() {
