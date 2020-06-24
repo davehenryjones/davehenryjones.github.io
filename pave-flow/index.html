@@ -3,20 +3,101 @@
   <head>
     <meta charset = "UTF-8"/>
     <title>PAVE</title>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="./css/index.css"/>
     <script type = "text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
     <script type = "text/javascript" src = "https://d3js.org/d3-dsv.v1.min.js"></script>
   </head>
 
-  <body>
-    <div id="mapid" style="width:1024px;height:1024px;"></div>
+  <body style="height: 100%, width=100%">
 
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+
+  <div class="w3-container w3-light-grey" style="height: 10vh"></div>
+  <div class="w3-cell-row" style="height: 80vh">
+    <div class="w3-container w3-cell w3-light-grey" style="width: 10vw"></div>
+    <div id="mapid" class="w3-container w3-green w3-cell" style="width: 45vw;z-index: 0">
+    </div>
+    <div class="w3-container w3-cell  centre" style="width: 35vw;">
+
+
+
+      <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="textOff(),setTimeout(closeNav,100)">&times</a>
+        <div id="myText" style="opacity: 0">
+          <p1 class="hbox">How to use the Application</p1>
+          <p1 class="pbox">On the visualisation map, each circle represents a location loaded from the data source. The <span style="color:#FFC107; font-weight: bold;text-shadow: 1px 1px 10px #000000">yellow</span> circle represents usage for that service, and the  <span style="color:#1E88E5; font-weight: bold;text-shadow: 1px 1px 10px #000000 ">blue</span>  circle represents the capacity for that service.</p1>
+          <p1 class="pbox">To view more detailed data about a service, simply hover your mouse over it on the map.</p1>
+          <p1 class="pbox">On the control pane, there is a slider which allows you to view histroical data.</p1>
+          <p1 class="pbox">By default the page loads with dummy data that we have created. To use your own data, click the 'upload file' button and choose at least one file to upload. You may select several files if you want to view histroic data. </p1>
+          <p1 class="pbox" style="font-style: italic"> Please see "File Info" for more information about uploading files.</p1>
+
+        </div>
+      </div>
+
+      <h1>PAVE</h1>
+      <h2>Patient Access Visualisation Engine</h2>
+      <p>Welcome all policy makers, comissioners, managers and medics around the world fighting the Coronavirus Pandemic. This web-app allows you to input current and historic capacity/occupancy data of core services, along with a postcode and it will visually map how the pandemic has evolved/is evolving in your service(s). The aim of this tool is to assist you in predicting where you may most efficiently open up new capacity. </p>
+      <p>For more information about PAVE or to contact us about potential other implementations of our application head to <a href="http://www.pave-health.org" target="_blank">pave-health.org</a></p>
+      <hr align="center">
+
+      <span class="btn1" onclick="openNav();setTimeout(textOn,600)"><a>How to Use</a></span>
+      <hr class="hr2" style="opacity: 0">
+      <span class="btn1" onclick="openInfo();setTimeout(textOn2,600)"><a>File Info</a></span>
+
+      <script>
+        function openNav() {
+          document.getElementById("mySidenav").style.width = "30vw";
+        }
+
+        function closeNav() {
+          document.getElementById("mySidenav").style.width = "0";
+        }
+
+        function openInfo() {
+          document.getElementById("myInfo").style.width = "30vw";
+        }
+
+        function closeInfo() {
+          document.getElementById("myInfo").style.width = "0";
+        }
+
+        function textOn() {
+          document.getElementById("myText").style.opacity = "1";
+          document.getElementById("mySidenav").style.overflow = "auto";
+        }
+
+        function textOff() {
+          document.getElementById("myText").style.opacity = "0";
+          document.getElementById("mySidenav").style.overflow = "hidden";
+        }
+
+        function textOn2() {
+          document.getElementById("myText2").style.opacity = "1";
+          document.getElementById("myInfo").style.overflow = "auto";
+        }
+
+        function textOff2() {
+          document.getElementById("myText2").style.opacity = "0";
+          document.getElementById("myInfo").style.overflow = "hidden";
+        }
+
+      </script>
+
+      <p class="nb">The colours used in this application are designed to be high contrast and accessible to those with colourblindness.</p>
+    </div>
+    <div class="w3-container w3-cell w3-light-grey" style="width: 10vw"></div>
+  </div>
+  <div class="w3-container w3-light-grey" style="height: 10vh"></div>
+
+ <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
   integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
   crossorigin=""></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.3/d3.min.js"></script>
-    <script type="module" language = "javascript" src= "./js/index.js"> </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="module" language = "javascript" src= "js/index.js"> </script>
   </body>
 </html>
