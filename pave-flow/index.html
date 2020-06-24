@@ -28,25 +28,21 @@
       <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="textOff(),setTimeout(closeNav,100)">&times</a>
         <div id="myText" style="opacity: 0">
-          <p1 class="hbox">How to use the Application</p1>
-          <p1 class="pbox">On the visualisation map, each circle represents a location loaded from the data source. The <span style="color:#FFC107; font-weight: bold;text-shadow: 1px 1px 10px #000000">yellow</span> circle represents usage for that service, and the  <span style="color:#1E88E5; font-weight: bold;text-shadow: 1px 1px 10px #000000 ">blue</span>  circle represents the capacity for that service.</p1>
-          <p1 class="pbox">To view more detailed data about a service, simply hover your mouse over it on the map.</p1>
-          <p1 class="pbox">On the control pane, there is a slider which allows you to view histroical data.</p1>
-          <p1 class="pbox">By default the page loads with dummy data that we have created. To use your own data, click the 'upload file' button and choose at least one file to upload. You may select several files if you want to view histroic data. </p1>
-          <p1 class="pbox" style="font-style: italic"> Please see "File Info" for more information about uploading files.</p1>
-
+          <p1 class="hbox">About the Visualisation</p1>
+          <p1 class="pbox">On the visualisation map, each circle represents an NHS service loaded from our dummy data source. The size of the circle corresponds to usage data for that service i.e. the bigger the circle the more patients using the service.</p1>
+          <p1 class="pbox">The lines between each service represent patient referrals between services. Again, the thickness of the line corresponds to the number of referrals.</p1>
+          <p1 class="pbox">This visualisation is from an early stage demo of the PAVE application. It is currently being update for the next PAVE release.</p1>
         </div>
       </div>
 
       <h1>PAVE</h1>
       <h2>Patient Access Visualisation Engine</h2>
-      <p>Welcome all policy makers, comissioners, managers and medics around the world fighting the Coronavirus Pandemic. This web-app allows you to input current and historic capacity/occupancy data of core services, along with a postcode and it will visually map how the pandemic has evolved/is evolving in your service(s). The aim of this tool is to assist you in predicting where you may most efficiently open up new capacity. </p>
+      <p>Welcome all policy makers, comissioners, managers and medics around the world fighting the Coronavirus Pandemic. This page is a demo of our PAVE tool can be used to visualise referrals between NHS services. The aim of this tool is to assist you in understanding how people move around the NHS system.</p>
       <p>For more information about PAVE or to contact us about potential other implementations of our application head to <a href="http://www.pave-health.org" target="_blank">pave-health.org</a></p>
       <hr align="center">
 
       <span class="btn1" onclick="openNav();setTimeout(textOn,600)"><a>How to Use</a></span>
       <hr class="hr2" style="opacity: 0">
-      <span class="btn1" onclick="openInfo();setTimeout(textOn2,600)"><a>File Info</a></span>
 
       <script>
         function openNav() {
