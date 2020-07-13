@@ -6,7 +6,8 @@ function openNav() {
 There are also filters to manipulate the visualisation. They are not the easiest to use at the moment but demonstrate some of the possible features of PAVE. The filters allow you to:
   - toggle labels on each circle/ line which represent the number of appointments/ referrals
   - show/hide services dependent on their postcode
-  - filter out services with a small number of patients/ referrals\n scale the size of the circles/lines in the visualisation
+  - filter out services with a small number of patients/ referrals
+  - scale the size of the circles/lines in the visualisation
   - change the colour of the circles/lines in the visualisation.`)
 }
 
