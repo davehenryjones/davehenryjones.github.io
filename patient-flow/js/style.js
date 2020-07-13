@@ -2,6 +2,7 @@
 
 function openNav() {
   //document.getElementById("mySidenav").style.width = "30vw";
+  //document.getElementById("mySidenav").style.width = "30vw";
   window.alert("On the visualisation map, each circle represents an NHS service loaded from our dummy data source. The size of the circle corresponds to usage data for that service i.e. the bigger the circle the more patients using the service.\n" \
           + "The lines between each service represent patient referrals between services. Again, the thickness of the line corresponds to the number of referrals.\n" \
           + "There are also filters to manipulate the visualisation. They are not the easiest to use at the moment but demonstrate some of the possible features of PAVE." \
