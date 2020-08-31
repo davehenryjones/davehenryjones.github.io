@@ -17,14 +17,15 @@ function load_map () {
   });
 
   //Load map of Bristol
-  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-    maxZoom: 18,
-    id: 'mapbox/streets-v11',
-    tileSize: 512,
-    zoomOffset: -1,
-    accessToken: 'pk.eyJ1IjoicGF2ZS1oZWFsdGgiLCJhIjoiY2s3dWQxZHUzMTZlYTNncXR1OHB2NTBkYiJ9.7mf8ut1FJpHCFzcsy7qiDA'
-  }).addTo(map);
+  // TODO Fetch on ServerSide then add to map
+  // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+  //   attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  //   maxZoom: 18,
+  //   id: 'mapbox/streets-v11',
+  //   tileSize: 512,
+  //   zoomOffset: -1,
+  //   accessToken: 'pk.eyJ1IjoicGF2ZS1oZWFsdGgiLCJhIjoiY2s3dWQxZHUzMTZlYTNncXR1OHB2NTBkYiJ9.7mf8ut1FJpHCFzcsy7qiDA'
+  // }).addTo(map);
   return;
 }
 
@@ -35,10 +36,12 @@ window.onload = async function() {
   design = await new Design(); //Async load style
   load_default_nodes() // Async load nodes
   setTimeout( function() {load_default_edges(nodes);}, 5000); // Async load edges
+  setTimeout( function() {load_vis(design, nodes, edges, map);}, 8000); // Async load vis
   setTimeout( function() {
-    load_vis(design, nodes, edges, map);
-  }, 10000); // Async load vis
-
+    // Parse any params
+    const params = new URLSearchParams(window.location.search);
+    parse_params(params);
+  }, 11000);
 
   // TODO Delete this
   L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -50,6 +53,59 @@ window.onload = async function() {
     accessToken: 'pk.eyJ1IjoicGF2ZS1oZWFsdGgiLCJhIjoiY2s3dWQxZHUzMTZlYTNncXR1OHB2NTBkYiJ9.7mf8ut1FJpHCFzcsy7qiDA'
   }).addTo(map);
 }
+
+// Parse web url parameters
+function parse_params(params) {
+  if (params.has('usage_labels')) {
+    document.getElementById("usage_checkbox").checked = true;
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent('change', false, true);
+    document.getElementById("usage_checkbox").dispatchEvent(event);
+  }
+  if (params.has('referrals_labels')) {
+    document.getElementById("referrals_checkbox").checked = true;
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent('change', false, true);
+    document.getElementById("referrals_checkbox").dispatchEvent(event);
+  }
+  if (params.has('min_usage')) {
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent('change', document.getElementById("node_weight_filter").value,  params.get('min_usage'));
+    document.getElementById("node_weight_filter").value = params.get('min_usage');
+    document.getElementById("node_weight_filter").dispatchEvent(event);
+  }
+  if (params.has('min_referral')) {
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent('change', document.getElementById("edge_weight_filter").value, params.get('min_referral'));
+    document.getElementById("edge_weight_filter").value = params.get('min_referral');
+    document.getElementById("edge_weight_filter").dispatchEvent(event);
+  }
+  if (params.has('usage_scaling')) {
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent('change', document.getElementById("usage_scaling").value, params.get('usage_scaling'));
+    document.getElementById("usage_scaling").value = params.get('usage_scaling');
+    document.getElementById("usage_scaling").dispatchEvent(event);
+  }
+  if (params.has('edge_scaling')) {
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent('change', document.getElementById("edge_scaling").value, params.get('edge_scaling'));
+    document.getElementById("edge_scaling").value = params.get('edge_scaling');
+    document.getElementById("edge_scaling").dispatchEvent(event);
+  }
+  if (params.has('edge_colour')) {
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent('change', document.getElementById("edge_colour").value, params.get('edge_colour'));
+    document.getElementById("edge_colour").value = params.get('edge_colour');
+    document.getElementById("edge_colour").dispatchEvent(event);
+  }
+  if (params.has('node_colour')) {
+    var event = document.createEvent("HTMLEvents");
+    event.initEvent('change', document.getElementById("node_colour").value, params.get('node_colour'));
+    document.getElementById("node_colour").value = params.get('node_colour');
+    document.getElementById("node_colour").dispatchEvent(event);
+  }
+}
+
 
 /*  EDGE Functions
 // These functions control edges in the vis
@@ -77,7 +133,7 @@ class Edge {
 async function load_default_edges(nodes) {
   edges = [];
 
-  await d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/referrals_list_combined.csv", function(data) {
+  await d3.csv("/resources/referrals_list_combined.csv", function(data) {
     for (let i = 0; i < data.length; i++) {
       let start_node = nodes.filter(node => node.location == data[i].source)[0];
       let end_node = nodes.filter(node => node.location == data[i].dest)[0];
@@ -124,7 +180,7 @@ async function get_coords(api_address) {
 async function load_default_nodes() {
   nodes = [];
 
-  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/dev/src/public/resources/services_list.csv", async function(data) {
+  d3.csv("/resources/services_list.csv", async function(data) {
     for (let i = 0; i < data.length; i++) {
       // Get map co-ordinates from postcode
       var api_address = ("https://api.postcodes.io/postcodes/").concat(data[i].location.replace(/\s/g, ''));
@@ -335,12 +391,36 @@ function create_triggers() {
   document.getElementById("edge_colour").addEventListener("change", edge_colour);
 }
 
+// Add true url encoding
+function true_url_encoding(param_key, param_val) {
+  if (!window.location.href.includes(param_key)) {
+    if (window.location.href.includes("?")) {window.history.pushState({id : "100"}, "Update" + param_val, window.location.href + param_key + "=" + param_val + "&");}
+    else {window.history.pushState({id : "100"}, "Update" + param_val, window.location.href + "?" +  param_key + "=" + param_val + "&");}
+  } else {
+    const param_old_val = new URLSearchParams(window.location.search).get(param_key);
+    const old_p = param_key + "=" + param_old_val + "\&";
+    console.log(old_p);
+    console.log(window.location.href.replace(old_p, "NEW_P=1&"));
+    const new_p = param_key + "=" + param_val + "&";
+    window.history.pushState({id : "100"}, "Update" + param_val, window.location.href.replace(old_p, new_p));
+  }
+  return;
+}
+
+// Remove false url encoding
+function false_url_encoding(param_key) {
+  window.history.pushState({id : "100"}, "Remove " + param_key, window.location.href.replace(param_key + "=true&",""));
+  return;
+}
+
 // Toggle usage labels
 function usage_labels() {
   if (this.checked) {
     node_label_layer.addTo(map);
+    true_url_encoding("usage_labels", "true");
   } else {
     node_label_layer.removeFrom(map);
+    false_url_encoding("usage_labels");
   }
 }
 
@@ -348,8 +428,10 @@ function usage_labels() {
 function referrals_labels() {
   if (this.checked) {
     edge_label_layer.addTo(map);
+    true_url_encoding("referrals_labels", "true");
   } else {
     edge_label_layer.removeFrom(map);
+    false_url_encoding("referrals_labels");
   }
 }
 
@@ -391,6 +473,7 @@ function node_weight_filter() {
       nodes[i].layer.addTo(map);
     }
   }
+  true_url_encoding("min_usage", this.value);
   return;
 }
 
@@ -405,6 +488,8 @@ function edge_weight_filter() {
       edges[i].layer.addTo(map);
     }
   }
+
+  true_url_encoding("min_referral", this.value);
   return;
 }
 
@@ -415,6 +500,7 @@ function node_scaling() {
     nodes[i].layer.setRadius(nodes[i].layer.getRadius() * adjust_scale);
   }
   design.node_scaling = this.value;
+  true_url_encoding("node_scaling", this.value);
   return;
 }
 
@@ -425,6 +511,7 @@ function edge_scaling() {
     edges[i].layer.setStyle({'weight': edges[i].layer.options.weight * adjust_scale});
   }
   design.edge_scaling = this.value;
+  true_url_encoding("edge_scaling", this.value);
   return;
 }
 
@@ -435,6 +522,7 @@ function node_colour() {
       nodes[i].layer.setStyle({'fillColor': '#' + this.value});
     }
     design.colours.nodes = this.value;
+    true_url_encoding("node_colour", this.value);
   }
   return;
 }
@@ -446,6 +534,7 @@ function edge_colour() {
       edges[i].layer.setStyle({'color': '#' + this.value});
     }
     design.colours.edges = this.value;
+    true_url_encoding("edge_colour", this.value);
   }
   return;
 }
