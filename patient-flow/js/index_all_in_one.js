@@ -133,7 +133,7 @@ class Edge {
 async function load_default_edges(nodes) {
   edges = [];
 
-  await d3.csv("/resources/referrals_list_combined.csv", function(data) {
+  await d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/master/src/public/resources/referrals_list_combined.csv", function(data) {
     for (let i = 0; i < data.length; i++) {
       let start_node = nodes.filter(node => node.location == data[i].source)[0];
       let end_node = nodes.filter(node => node.location == data[i].dest)[0];
@@ -180,7 +180,7 @@ async function get_coords(api_address) {
 async function load_default_nodes() {
   nodes = [];
 
-  d3.csv("/resources/services_list.csv", async function(data) {
+  d3.csv("https://raw.githubusercontent.com/davehenryjones/WellbeingJam2020/master/src/public/resources/services_list.csv", async function(data) {
     for (let i = 0; i < data.length; i++) {
       // Get map co-ordinates from postcode
       var api_address = ("https://api.postcodes.io/postcodes/").concat(data[i].location.replace(/\s/g, ''));
